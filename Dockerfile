@@ -1,16 +1,11 @@
-FROM node:18-alpine
+FROM n8nio/n8n:latest
 
 USER root
 
-# Install Python3, pip, ffmpeg, and curl
+# Install Python3, pip, and ffmpeg
 RUN apk add --no-cache python3 py3-pip ffmpeg curl
 
-# Install n8n globally and edge-tts
-RUN npm install n8n -g && \
-    pip3 install edge-tts --break-system-packages
+# Install edge-tts cleanly
+RUN pip3 install edge-tts --break-system-packages
 
 USER node
-
-EXPOSE 5678
-
-CMD ["n8n", "start"]
