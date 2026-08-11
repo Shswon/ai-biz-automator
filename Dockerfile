@@ -1,11 +1,16 @@
-FROM n8nio/n8n:latest
+FROM python:3.10-slim
 
-USER root
+WORKDIR /app
 
-# Install Python3, pip, and ffmpeg for Debian/Ubuntu based image
-RUN apt-get update && apt-get install -y python3 python3-pip ffmpeg curl
+# Install system dependencies including ffmpeg
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install edge-tts cleanly
-RUN pip3 install edge-tts --break-system-packages
+RUN pip install --no-cache-dir edge-tts
 
-USER node
+EXPOSE 7860
+
+CMD ["python", "-c", "print('AI Biz Automator Ready!')"]
